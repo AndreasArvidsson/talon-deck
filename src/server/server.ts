@@ -17,7 +17,7 @@ liveReloadServer.server.once("connection", () => {
 });
 
 fs.watch(tempDir, () => {
-  console.log("Temp directory changed");
+  // console.log("Temp directory changed");
   liveReloadServer.refresh("/");
 });
 
@@ -30,18 +30,24 @@ app.use("/", express.static(__dirname));
 app.use("/temp", express.static(tempDir));
 
 app.post("/rest/action", (req, res) => {
-  const command = `echo "actions.${req.body.action}" | ${req.body.repl}`;
+  // const command = `echo "actions.${req.body.action}" | ${req.body.repl}`;
+  const command = req.body.repl;
 
-  console.log(command);
-
-  childProcess.exec(command, (error, stdout, stderr) => {
+  const child = childProcess.exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
     }
-    console.log(`stdout: ${stdout}`);
-    console.error(`stderr: ${stderr}`);
+    if (stdout) {
+      console.log(stdout);
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+    }
   });
+
+  child.stdin?.write(`actions.${req.body.action}`);
+  child.stdin?.end();
 
   res.end();
 });

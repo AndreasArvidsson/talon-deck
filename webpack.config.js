@@ -32,7 +32,7 @@ module.exports = (env, argv) => {
     output: {
       path: outDir,
       filename: `${filename}.js`,
-      assetModuleFilename: `files/${filename}[ext]`,
+      assetModuleFilename: "files/[name][ext]",
     },
     resolve: {
       extensions: [".js", ".ts", ".tsx"],
