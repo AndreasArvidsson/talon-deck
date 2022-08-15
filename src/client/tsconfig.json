@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es6",
+        "jsx": "react",
+        "moduleResolution": "node",
+        "strict": true,
+        "noImplicitAny": true,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+    },
+    "include": [
+        "./*.ts",
+        "./*.tsx"
+    ]
+}
