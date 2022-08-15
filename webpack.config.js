@@ -24,10 +24,7 @@ module.exports = (env, argv) => {
     },
     plugins: [new webpack.ContextReplacementPlugin(/express/)],
     externals: [nodeExternals()],
-    // stats: { errorDetails: true },
   };
-
-  // localhost:3000/temp/config.json
 
   const client = {
     name: "client",
@@ -38,7 +35,7 @@ module.exports = (env, argv) => {
       assetModuleFilename: `files/${filename}[ext]`,
     },
     resolve: {
-      extensions: [".js", ".ts", ".jsx", ".tsx"],
+      extensions: [".js", ".ts", ".tsx"],
       modules: [
         path.resolve(__dirname, "node_modules"),
         path.resolve(srcDir, "client"),
@@ -47,7 +44,7 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.(js|ts|jsx|tsx)$/,
+          test: /\.(ts|tsx)$/,
           use: [
             {
               loader: "babel-loader",
@@ -67,7 +64,6 @@ module.exports = (env, argv) => {
             },
           ],
         },
-
         {
           test: /\.css$/,
           use: [
@@ -76,11 +72,10 @@ module.exports = (env, argv) => {
             "css-loader",
           ],
         },
-
-        // {
-        //   test: /\.(png|jpg|gif|svg|eot|woff|woff2|ttf|sh|pdf)$/,
-        //   tsype: "asset/resource",
-        // },
+        {
+          test: /\.(png|jpg|gif|svg|eot|woff|woff2|ttf|sh|pdf)$/,
+          type: "asset/resource",
+        },
       ],
     },
     plugins: [
@@ -103,6 +98,10 @@ module.exports = (env, argv) => {
     devServer: {
       proxy: {
         "/temp": {
+          target: `${backend}/`,
+          changeOrigin: true,
+        },
+        "/rest/**": {
           target: `${backend}/`,
           changeOrigin: true,
         },
