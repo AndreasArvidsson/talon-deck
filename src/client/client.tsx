@@ -1,4 +1,7 @@
-console.log("index255");
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 fetch("temp/config.json")
   .then((response) => {
@@ -10,3 +13,5 @@ fetch("temp/config.json")
   .catch((e) => {
     console.log("Booo", e);
   });
+
+ReactDOM.render(<App />, document.getElementById("root"));

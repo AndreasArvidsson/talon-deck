@@ -1,6 +1,6 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const ESLintPlugin = require("eslint-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 const path = require("path");
@@ -31,7 +31,7 @@ module.exports = (env, argv) => {
 
   const client = {
     name: "client",
-    entry: path.resolve(srcDir, "client/client.ts"),
+    entry: path.resolve(srcDir, "client/client.tsx"),
     output: {
       path: outDir,
       filename: `${filename}.js`,
@@ -68,14 +68,14 @@ module.exports = (env, argv) => {
           ],
         },
 
-        // {
-        //   test: /\.css$/,
-        //   use: [
-        //     //Extract styles to .css file.
-        //     MiniCssExtractPlugin.loader,
-        //     "css-loader",
-        //   ],
-        // },
+        {
+          test: /\.css$/,
+          use: [
+            //Extract styles to .css file.
+            MiniCssExtractPlugin.loader,
+            "css-loader",
+          ],
+        },
 
         // {
         //   test: /\.(png|jpg|gif|svg|eot|woff|woff2|ttf|sh|pdf)$/,
@@ -90,14 +90,15 @@ module.exports = (env, argv) => {
         // favicon: path.resolve(commonsWebDir, "images/favicon.ico"),
       }),
 
-      //   //Extract css styles as external file.
-      //   new MiniCssExtractPlugin({
-      //     filename: `${filename}.css`,
-      //   }),
-      //   //Lint JS/TS files
-      //   new ESLintPlugin({
-      //     overrideConfigFile: path.resolve(__dirname, lintConf),
-      //   }),
+      //Extract css styles as external file.
+      new MiniCssExtractPlugin({
+        filename: `${filename}.css`,
+      }),
+
+      //Lint JS/TS files
+      // new ESLintPlugin({
+      //   overrideConfigFile: path.resolve(__dirname, lintConf),
+      // }),
     ],
     devServer: {
       proxy: {
