@@ -24,6 +24,20 @@ module.exports = (env, argv) => {
     },
     plugins: [new webpack.ContextReplacementPlugin(/express/)],
     externals: [nodeExternals()],
+    resolve: {
+      extensions: [".ts"],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-typescript"],
+          },
+        },
+      ],
+    },
   };
 
   const client = {
@@ -32,10 +46,10 @@ module.exports = (env, argv) => {
     output: {
       path: outDir,
       filename: `${filename}.js`,
-      assetModuleFilename: "files/[name][ext]",
+      assetModuleFilename: `files/${filename}[ext]`,
     },
     resolve: {
-      extensions: [".js", ".ts", ".tsx"],
+      extensions: [".ts", ".tsx"],
       modules: [
         path.resolve(__dirname, "node_modules"),
         path.resolve(srcDir, "client"),
@@ -45,24 +59,20 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.(ts|tsx)$/,
-          use: [
-            {
-              loader: "babel-loader",
-              options: {
-                presets: [
-                  [
-                    "@babel/preset-react",
-                    {
-                      //Replaces the import source when importing functions.
-                      //Remove for @babel/core 8
-                      runtime: "automatic",
-                    },
-                  ],
-                  "@babel/preset-typescript",
-                ],
-              },
-            },
-          ],
+          loader: "babel-loader",
+          options: {
+            presets: [
+              [
+                "@babel/preset-react",
+                {
+                  //Replaces the import source when importing functions.
+                  //Remove for @babel/core 8
+                  runtime: "automatic",
+                },
+              ],
+              "@babel/preset-typescript",
+            ],
+          },
         },
         {
           test: /\.css$/,
@@ -97,10 +107,6 @@ module.exports = (env, argv) => {
     ],
     devServer: {
       proxy: {
-        "/temp": {
-          target: `${backend}/`,
-          changeOrigin: true,
-        },
         "/rest/**": {
           target: `${backend}/`,
           changeOrigin: true,

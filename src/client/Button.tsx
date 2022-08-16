@@ -5,13 +5,15 @@ import "./Button.css";
 
 interface Parameters {
   button: ButtonConfig;
-  performAction: (action: string) => void;
 }
 
-const Button = ({ button, performAction }: Parameters) => {
-  if (button.action) {
+const Button = ({ button }: Parameters) => {
+  if (button.actionId) {
     return (
-      <button className="button" onClick={() => performAction(button.action!)}>
+      <button
+        className="button"
+        onClick={() => performAction(button.actionId!)}
+      >
         {createInnerDiv(button.icon)}
       </button>
     );
@@ -28,3 +30,15 @@ function createInnerDiv(iconName: string) {
   }
   return <div className="icon-missing">{iconName}</div>;
 }
+
+const performAction = (actionId: string) => {
+  const body = JSON.stringify({ actionId });
+  const headers = { "Content-Type": "application/json" };
+  fetch("rest/action", { method: "POST", body, headers })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+};

@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Button";
-import "./Buttons.css";
 import { ButtonConfig } from "./types";
+import "./Buttons.css";
 
-interface Parameters {
-  buttons: ButtonConfig[];
-  performAction: (action: string) => void;
-}
+const Buttons = () => {
+  const [buttons, setButtons] = useState<ButtonConfig[]>([]);
 
-const Buttons = ({ buttons, performAction }: Parameters) => {
+  useEffect(() => {
+    fetch("rest/buttons")
+      .then((response) => response.json())
+      .then(setButtons)
+      .catch((e) => console.error(e));
+  }, []);
+
+  if (!buttons) {
+    return null;
+  }
+
   return (
     <div className="buttons">
       {buttons.map((button, i) => (
-        <Button key={i} button={button} performAction={performAction} />
+        <Button key={i} button={button} />
       ))}
     </div>
   );
