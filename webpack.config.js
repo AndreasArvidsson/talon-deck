@@ -82,7 +82,7 @@ module.exports = (env, argv) => {
       //Use index as template file.
       new HtmlWebPackPlugin({
         template: path.resolve(srcDir, "client/index.html"),
-        // favicon: path.resolve(commonsWebDir, "images/favicon.ico"),
+        favicon: path.resolve(srcDir, "client/favicon.webp"),
       }),
 
       //Extract css styles as external file.
