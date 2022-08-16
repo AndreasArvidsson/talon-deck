@@ -19,11 +19,12 @@
     background-repeat: no-repeat;
 }
 
-.button > .icon-missing {
+.button  .icon-missing {
     word-wrap: break-word;
 }
 
 button.button {
+    background-color: transparent;
     border-color: gold;
 }
 
