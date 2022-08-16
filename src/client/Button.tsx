@@ -9,19 +9,22 @@ interface Parameters {
 }
 
 const Button = ({ button, performAction }: Parameters) => {
-  const backgroundImage = `url(${getIcon(button.icon)})`;
   if (button.action) {
     return (
       <button className="button" onClick={() => performAction(button.action!)}>
-        <div style={{ backgroundImage }} />
+        {createInnerDiv(button.icon)}
       </button>
     );
   }
-  return (
-    <div className="button">
-      <div style={{ backgroundImage }} />
-    </div>
-  );
+  return <div className="button">{createInnerDiv(button.icon)}</div>;
 };
 
 export default Button;
+
+function createInnerDiv(iconName: string) {
+  const iconUrl = getIcon(iconName);
+  if (iconUrl) {
+    return <div style={{ backgroundImage: `url(${iconUrl})` }} />;
+  }
+  return <div className="icon-missing">{iconName}</div>;
+}

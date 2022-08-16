@@ -1,16 +1,21 @@
-const ctx = require.context("./icons", false, /.png|.jpg|.jpeg/);
+const ctx = require.context("./icons", true, /\.(png|jpg|jpeg|gif|svg|webp)$/);
 
 const icons: { [key: string]: string } = {};
 
 ctx.keys().forEach((key: string) => {
-  const uri: string = ctx(key);
-  const name = uri.substring(uri.lastIndexOf("/") + 1);
-  icons[name] = uri;
+  if (key.startsWith("./")) {
+    const name = key.substring(key.lastIndexOf("/") + 1, key.lastIndexOf("."));
+    if (icons[name]) {
+      throw Error(`Duplicate icon with name '${name}'`);
+    }
+    icons[name] = ctx(key);
+  }
 });
 
 export const getIcon = (name: string) => {
   if (!icons[name]) {
-    throw Error(`Unknown icon '${name}'`);
+    console.log(`Unknown icon '${name}'`);
+    return null;
   }
   return icons[name];
 };

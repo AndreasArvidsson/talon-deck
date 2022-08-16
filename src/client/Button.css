@@ -1,7 +1,7 @@
 .button {
     display: inline-block;
-    height: 10rem;
-    width: 10rem;
+    height: 5rem;
+    width: 5rem;
     border: 0.25rem solid grey;
     border-radius: .6rem;
     vertical-align: middle;
@@ -19,6 +19,11 @@
     background-repeat: no-repeat;
 }
 
+.button > .icon-missing {
+    word-wrap: break-word;
+}
+
 button.button {
     border-color: gold;
 }
+
