@@ -49,6 +49,15 @@ export function readConfigFile() {
   return false;
 }
 
+export function configIsStale() {
+  return currentConfigString && Date.now() - lastUpdate > 10000;
+}
+
+export function configReset() {
+  currentConfigString = "";
+  buttons = [];
+}
+
 function createClientButton(button: ButtonConfig): ButtonClient {
   return {
     icon: button.icon,
@@ -76,12 +85,3 @@ function createActionMaps(buttons: ButtonConfig[]) {
   });
   return [actionToId, idToAction];
 }
-
-setInterval(() => {
-  // Config file is stale. No is alive signal sent.
-  if (lastUpdate && Date.now() - lastUpdate > 10000) {
-    currentConfigString = "";
-    buttons = [];
-    // TODO Update client
-  }
-}, 1000);

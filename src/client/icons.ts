@@ -14,7 +14,7 @@ ctx.keys().forEach((key: string) => {
 
 export const getIcon = (name: string) => {
   if (!icons[name]) {
-    console.log(`Unknown icon '${name}'`);
+    console.warn(`Unknown icon '${name}'`);
     return null;
   }
   return icons[name];
