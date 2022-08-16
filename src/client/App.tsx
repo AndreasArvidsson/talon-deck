@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Buttons from "./Buttons";
-import { Config } from "./types";
+import { ButtonConfig, Config } from "./types";
 
 const App = () => {
   const [config, setConfig] = useState<Config>();
@@ -10,7 +10,8 @@ const App = () => {
       .then((response) => {
         return response.json();
       })
-      .then((data) => {
+      .then((data: Config) => {
+        sortButtons(data.buttons);
         setConfig(data);
       })
       .catch((e) => {
@@ -38,3 +39,11 @@ const App = () => {
 };
 
 export default App;
+
+function sortButtons(buttons: ButtonConfig[]) {
+  buttons.sort(
+    (a, b) =>
+      (a.order ?? Number.MAX_SAFE_INTEGER) -
+      (b.order ?? Number.MAX_SAFE_INTEGER)
+  );
+}
