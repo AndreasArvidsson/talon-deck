@@ -1,6 +1,7 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
+import http from "http";
 import { Server } from "socket.io";
 import { performAction } from "./actions";
 import {
@@ -14,9 +15,8 @@ import {
 const port = process.env.PORT || 3000;
 
 const app = express();
-app.set("port", port);
-app.use(express.json());
 
+app.use(express.json());
 app.use("/", express.static(__dirname));
 
 app.get("/rest/buttons", (req, res) => {
@@ -32,14 +32,10 @@ app.post("/rest/action", async (req, res) => {
   res.end();
 });
 
-const http = require("http").Server(app);
-const io = new Server(http);
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
 
-app.get("/", (req: any, res: any) => {
-  res.sendFile(path.resolve("./client/index.html"));
-});
-
-const server = http.listen(port, "0.0.0.0", () => {
+const server = httpServer.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
