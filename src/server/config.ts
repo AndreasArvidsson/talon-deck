@@ -27,7 +27,11 @@ export function getButtons() {
 }
 
 export function getAction(actionId: string) {
-  return idToAction[actionId];
+  const action = idToAction[actionId];
+  if (!action) {
+    throw Error(`Unknown actionId: '${actionId}'`);
+  }
+  return action;
 }
 
 export function readConfigFile() {
