@@ -20,6 +20,7 @@ Exposes a responsive webpage where the user can monitor and control Talon.
    `npm run build`
 1. Start node server  
    `npm start`
+1. Open Talon deck at [http://localhost:3000](http://localhost:3000)
 
 ## Implementation details
 
