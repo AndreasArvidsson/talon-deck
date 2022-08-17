@@ -2,13 +2,11 @@
     display: inline-block;
     height: 5rem;
     width: 5rem;
-    border: 0.25rem solid grey;
+    border: 0.25rem inset grey;
     border-radius: .6rem;
     vertical-align: middle;
     padding: 0;
-    margin: 0;
-    margin-right: 2rem;
-    border-style: inset;
+    margin: 1rem;
 }
 
 .button > div {
