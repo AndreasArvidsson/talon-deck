@@ -22,10 +22,13 @@ module.exports = (env, argv) => {
       path: outDir,
       filename: `server.js`,
     },
+    stats: {
+      errorDetails: true,
+    },
     plugins: [new webpack.ContextReplacementPlugin(/express/)],
     externals: [nodeExternals()],
     resolve: {
-      extensions: [".ts"],
+      extensions: [".js", ".ts"],
     },
     module: {
       rules: [
@@ -49,7 +52,7 @@ module.exports = (env, argv) => {
       assetModuleFilename: `files/${filename}[ext]`,
     },
     resolve: {
-      extensions: [".ts", ".tsx"],
+      extensions: [".js", ".ts", ".tsx"],
       modules: [
         path.resolve(__dirname, "node_modules"),
         path.resolve(srcDir, "client"),
@@ -108,6 +111,10 @@ module.exports = (env, argv) => {
     devServer: {
       proxy: {
         "/rest/**": {
+          target: `${backend}/`,
+          changeOrigin: true,
+        },
+        "/socket.io/**": {
           target: `${backend}/`,
           changeOrigin: true,
         },

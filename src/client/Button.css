@@ -8,6 +8,7 @@
     padding: 0;
     margin: 0;
     margin-right: 2rem;
+    border-style: inset;
 }
 
 .button > div {
@@ -19,7 +20,7 @@
     background-repeat: no-repeat;
 }
 
-.button  .icon-missing {
+.button .icon-missing {
     word-wrap: break-word;
 }
 
@@ -28,3 +29,7 @@ button.button {
     border-color: gold;
 }
 
+button.button[disabled] {
+    border-color: black;
+    border-style: solid;
+}

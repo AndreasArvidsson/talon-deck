@@ -1,24 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import "./Button.css";
 import { getIcon } from "./icons";
 import { ButtonConfig } from "./types";
-import "./Button.css";
 
 interface Parameters {
   button: ButtonConfig;
 }
 
 const Button = ({ button }: Parameters) => {
-  if (button.actionId) {
-    return (
-      <button
-        className="button"
-        onClick={() => performAction(button.actionId!)}
-      >
-        {createInnerDiv(button.icon)}
-      </button>
-    );
+  const [loading, setLoading] = useState(false);
+
+  if (!button.actionId) {
+    return <div className="button">{createInnerDiv(button.icon)}</div>;
   }
-  return <div className="button">{createInnerDiv(button.icon)}</div>;
+
+  const performAction = () => {
+    setLoading(true);
+    const body = JSON.stringify({ actionId: button.actionId });
+    const headers = { "Content-Type": "application/json" };
+    fetch("rest/action", { method: "POST", body, headers })
+      .catch((e) => console.error(e))
+      .finally(() => setLoading(false));
+  };
+
+  return (
+    <button
+      className="button"
+      disabled={loading}
+      onClick={() => performAction()}
+    >
+      {createInnerDiv(button.icon)}
+    </button>
+  );
 };
 
 export default Button;
@@ -30,15 +43,3 @@ function createInnerDiv(iconName: string) {
   }
   return <div className="icon-missing">{iconName}</div>;
 }
-
-const performAction = (actionId: string) => {
-  const body = JSON.stringify({ actionId });
-  const headers = { "Content-Type": "application/json" };
-  fetch("rest/action", { method: "POST", body, headers })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((e) => {
-      console.error(e);
-    });
-};

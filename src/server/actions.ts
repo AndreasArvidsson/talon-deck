@@ -2,22 +2,24 @@ import childProcess from "child_process";
 import { getAction, getRepl } from "./config";
 
 export function performAction(actionId: string) {
-  const action = getAction(actionId);
+  return new Promise<void>((resolve, reject) => {
+    const action = getAction(actionId);
 
-  const process = childProcess.exec(getRepl(), (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      throw error;
+    const process = childProcess.exec(getRepl(), (error, stdout, stderr) => {
+      if (error) {
+        reject(`exec error: ${error}`);
+      } else if (stderr) {
+        reject(`stderr: ${stderr}`);
+      } else {
+        resolve();
+      }
+    });
+
+    if (!process.stdin) {
+      reject("stdin is null");
+      return;
     }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      throw Error(stderr);
-    }
+
+    process.stdin.end(`actions.${action}`);
   });
-
-  if (!process.stdin) {
-    throw Error("stdin is null");
-  }
-
-  process.stdin.end(`actions.${action}`);
 }

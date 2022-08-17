@@ -23,9 +23,9 @@ app.get("/rest/buttons", (req, res) => {
   res.json(getButtons());
 });
 
-app.post("/rest/action", (req, res) => {
+app.post("/rest/action", async (req, res) => {
   try {
-    performAction(req.body.actionId);
+    await performAction(req.body.actionId);
   } catch (e: any) {
     res.status(500).send(e.message);
   }
@@ -50,7 +50,7 @@ fs.watch(getConfigFile(), () => {
 });
 
 setInterval(() => {
-  // Config file is stale. No is alive signal sent.
+  // Config file is stale. No heartbeat signal sent.
   if (configIsStale()) {
     console.log("Reset stale config");
     configReset();
