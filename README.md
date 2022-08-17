@@ -4,11 +4,11 @@
 
 Exposes a responsive webpage where the user can monitor and control Talon.
 
-![Talon deck example 1](./docs/example1.png)
+<kbd><img src="./docs/example1.png" alt="Talon deck example 1" style="height:5rem; border:1px solid black;" /></kbd>
 
-![Talon deck example 2](./docs/example2.jpg)
+<kbd><img src="./docs/example2.jpg" alt="Talon deck example 2" style="height:11rem" /></kbd>
 
-![Talon deck phone](./docs/example_phone.jpg)
+<img src="./docs/example_phone.jpg" alt="Talon deck phone" style="height:15rem" />
 
 ## Installation and running
 
