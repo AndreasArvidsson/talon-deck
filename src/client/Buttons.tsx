@@ -33,8 +33,8 @@ const Buttons = () => {
 
   return (
     <>
-      {buttons.map((button, i) => (
-        <Button key={i} button={button} />
+      {buttons.map((button) => (
+        <Button key={button.icon} button={button} />
       ))}
     </>
   );
