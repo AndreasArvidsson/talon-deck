@@ -5,6 +5,7 @@ import { ButtonConfig } from "./types";
 
 const Buttons = () => {
   const [buttons, setButtons] = useState<ButtonConfig[]>([]);
+  const [connected, setConnected] = useState(false);
 
   const fetchButtons = () => {
     fetch("rest/buttons")
@@ -16,17 +17,21 @@ const Buttons = () => {
   useEffect(() => {
     io()
       .on("update", fetchButtons)
-      .on("connect", fetchButtons)
-      .on("disconnect", () => setButtons([]));
+      .on("connect", () => {
+        setConnected(true);
+        fetchButtons();
+      })
+      .on("disconnect", () => {
+        setConnected(false);
+        setButtons([]);
+      });
   }, []);
 
-  return (
-    <div className="buttons">
-      {buttons.map((button, i) => (
-        <Button key={i} button={button} />
-      ))}
-    </div>
-  );
+  if (!connected) {
+    return <h1>Disconnected</h1>;
+  }
+
+  return buttons.map((button, i) => <Button key={i} button={button} />);
 };
 
 export default Buttons;
