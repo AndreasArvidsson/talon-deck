@@ -18,3 +18,8 @@ export interface Config {
   repl: string;
   buttons: ButtonConfig[];
 }
+
+export interface Settings {
+  host: string;
+  port: number;
+}

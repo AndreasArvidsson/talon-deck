@@ -1,8 +1,7 @@
 import express from "express";
 import fs from "fs";
-import path from "path";
-import http from "http";
 import helmet from "helmet";
+import http from "http";
 import { Server } from "socket.io";
 import { performAction } from "./actions";
 import {
@@ -12,9 +11,9 @@ import {
   getConfigFile,
   readConfigFile,
 } from "./config";
+import { getSettings } from "./settingsUtil";
 
-const port = process.env.PORT || 3000;
-
+const settings = getSettings();
 const app = express();
 
 app.use(
@@ -42,8 +41,8 @@ app.post("/rest/action", async (req, res) => {
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
 
-const server = httpServer.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+const server = httpServer.listen(settings.port, settings.host, () => {
+  console.log(`Server listening on ${settings.host}:${settings.port}`);
 });
 
 fs.watch(getConfigFile(), () => {
