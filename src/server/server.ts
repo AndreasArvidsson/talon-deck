@@ -12,6 +12,7 @@ import {
   readConfigFile,
 } from "./config";
 import { getSettings } from "./settingsUtil";
+import { validateHost } from "./validate";
 
 const settings = getSettings();
 const app = express();
@@ -30,6 +31,11 @@ app.get("/rest/buttons", (req, res) => {
 });
 
 app.post("/rest/action", async (req, res) => {
+  const [isValid, errorMessage] = validateHost(req.headers.host);
+  if (!isValid) {
+    res.status(403).send(errorMessage);
+    return;
+  }
   try {
     await performAction(req.body.actionId);
   } catch (e: any) {
@@ -42,7 +48,9 @@ const httpServer = http.createServer(app);
 const io = new Server(httpServer);
 
 const server = httpServer.listen(settings.port, settings.host, () => {
-  console.log(`Server listening on ${settings.host}:${settings.port}`);
+  console.log(
+    `Server listening on host '${settings.host}' port '${settings.port}'`
+  );
 });
 
 fs.watch(getConfigFile(), () => {

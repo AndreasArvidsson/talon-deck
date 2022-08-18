@@ -53,7 +53,7 @@ export function readConfigFile() {
 }
 
 export function configIsStale() {
-  return currentConfigString && Date.now() - lastUpdate > 1500;
+  return currentConfigString && Date.now() - lastUpdate > 1900;
 }
 
 export function configReset() {
