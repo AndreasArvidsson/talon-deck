@@ -2,7 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
-import { ButtonClient, ButtonConfig, Config, StringMap } from "./types";
+import { ButtonClient, ButtonConfig, Config } from "./types";
 
 const configFile = path.join(os.tmpdir(), "talonDeck.json");
 
@@ -10,8 +10,7 @@ let lastUpdate = 0;
 let currentConfigString = "";
 let repl = "";
 let buttons: ButtonClient[] = [];
-let actionToId: StringMap = {};
-let idToAction: StringMap = {};
+let idToAction = new Map<string, string>();
 
 export function getConfigFile() {
   return configFile;
@@ -26,7 +25,7 @@ export function getButtons() {
 }
 
 export function getAction(actionId: string) {
-  const action = idToAction[actionId];
+  const action = idToAction.get(actionId);
   if (!action) {
     throw Error(`Unknown actionId: '${actionId}'`);
   }
@@ -40,10 +39,11 @@ export function readConfigFile() {
     const content = fs.readFileSync(getConfigFile()).toString();
     if (content !== currentConfigString) {
       const config: Config = JSON.parse(content);
-      repl = config.repl;
       sortButtons(config.buttons);
-      [actionToId, idToAction] = createActionMaps(config.buttons);
-      buttons = config.buttons.map(createClientButton);
+      const [actionToId, _idToAction] = createActionMaps(config.buttons);
+      buttons = config.buttons.map((b) => createClientButton(actionToId, b));
+      repl = config.repl;
+      idToAction = _idToAction;
       currentConfigString = content;
       return true;
     }
@@ -61,10 +61,13 @@ export function configReset() {
   buttons = [];
 }
 
-function createClientButton(button: ButtonConfig): ButtonClient {
+function createClientButton(
+  actionToId: Map<string, string>,
+  button: ButtonConfig
+): ButtonClient {
   return {
     icon: button.icon,
-    actionId: button.action ? actionToId[button.action] : undefined,
+    actionId: button.action ? actionToId.get(button.action) : undefined,
   };
 }
 
@@ -77,13 +80,13 @@ function sortButtons(buttons: ButtonConfig[]) {
 }
 
 function createActionMaps(buttons: ButtonConfig[]) {
-  const actionToId: StringMap = {};
-  const idToAction: StringMap = {};
+  const actionToId = new Map<string, string>();
+  const idToAction = new Map<string, string>();
   buttons.forEach((button) => {
     if (button.action) {
       const id = uuidv4();
-      actionToId[button.action] = id;
-      idToAction[id] = button.action;
+      actionToId.set(button.action, id);
+      idToAction.set(id, button.action);
     }
   });
   return [actionToId, idToAction];

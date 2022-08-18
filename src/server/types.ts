@@ -18,5 +18,3 @@ export interface Config {
   repl: string;
   buttons: ButtonConfig[];
 }
-
-export type StringMap = { [key: string]: string };
