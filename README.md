@@ -28,3 +28,7 @@ Exposes a responsive webpage where the user can monitor and control Talon.
 1. The node server watches for changes in the JSON file and via web sockets updates the webpage.
 1. On every update the Talon actions gets converted into a UUID called `actionId` that are sent to the webpage. The Talon actions never leave the server and the `actionId` becomes invalid after each update.
 1. When the user presses the icon the `actionId` is sent to the server, converted back to the Talon action and piped into the Talon repl.
+
+## Disclaimer
+
+This software has no login/authentication and is open to network connections. That means that any one with access to your local network can use it. Make sure to not use any destructive actions on an unsecure network.
