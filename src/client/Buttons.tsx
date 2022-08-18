@@ -6,11 +6,17 @@ import { ButtonConfig } from "./types";
 const Buttons = () => {
   const [buttons, setButtons] = useState<ButtonConfig[]>([]);
   const [connected, setConnected] = useState(false);
+  const [csrfToken, setCsrfToken] = useState();
 
   const fetchButtons = () => {
-    fetch("rest/buttons")
-      .then((response) => response.json())
-      .then(setButtons)
+    Promise.all([
+      fetch("rest/buttons").then((r) => r.json()),
+      fetch("rest/csrfToken").then((r) => r.json()),
+    ])
+      .then((responses) => {
+        setButtons(responses[0]);
+        setCsrfToken(responses[1].csrfToken);
+      })
       .catch((e) => console.error(e));
   };
 
@@ -27,14 +33,14 @@ const Buttons = () => {
       });
   }, []);
 
-  if (!connected) {
+  if (!connected || !csrfToken) {
     return <h1>Disconnected</h1>;
   }
 
   return (
     <>
       {buttons.map((button) => (
-        <Button key={button.icon} button={button} />
+        <Button key={button.icon} csrfToken={csrfToken} button={button} />
       ))}
     </>
   );

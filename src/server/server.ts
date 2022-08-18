@@ -2,6 +2,8 @@ import express from "express";
 import fs from "fs";
 import helmet from "helmet";
 import http from "http";
+import csrf from "csurf";
+import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { performAction } from "./actions";
 import {
@@ -24,7 +26,13 @@ app.use(
 );
 
 app.use(express.json());
+app.use(cookieParser());
+app.use(csrf({ cookie: true }));
 app.use("/", express.static(__dirname));
+
+app.get("/rest/csrfToken", (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 app.get("/rest/buttons", (req, res) => {
   res.json(getButtons());
