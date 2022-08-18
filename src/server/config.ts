@@ -4,8 +4,7 @@ import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import { ButtonClient, ButtonConfig, Config, StringMap } from "./types";
 
-const tempDir = path.join(os.tmpdir(), "talonDeck");
-const configFile = path.join(tempDir, "config.json");
+const configFile = path.join(os.tmpdir(), "talonDeck.json");
 
 let lastUpdate = 0;
 let currentConfigString = "";
