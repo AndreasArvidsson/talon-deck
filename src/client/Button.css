@@ -1,5 +1,6 @@
 .button {
     display: inline-block;
+    box-sizing: border-box;
     height: 5rem;
     width: 5rem;
     border: 0.25rem inset grey;

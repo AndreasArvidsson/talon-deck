@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import Button from "./Button";
 import { ButtonConfig } from "./types";
-import "./Buttons.css";
 
 const Buttons = () => {
   const [buttons, setButtons] = useState<ButtonConfig[]>([]);
