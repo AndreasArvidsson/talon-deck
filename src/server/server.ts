@@ -2,6 +2,7 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 import http from "http";
+import helmet from "helmet";
 import { Server } from "socket.io";
 import { performAction } from "./actions";
 import {
@@ -15,6 +16,12 @@ import {
 const port = process.env.PORT || 3000;
 
 const app = express();
+
+app.use(
+  helmet({
+    contentSecurityPolicy: { directives: { upgradeInsecureRequests: null } },
+  })
+);
 
 app.use(express.json());
 app.use("/", express.static(__dirname));
