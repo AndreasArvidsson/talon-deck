@@ -31,7 +31,13 @@ const Buttons = () => {
     return <h1>Disconnected</h1>;
   }
 
-  return buttons.map((button, i) => <Button key={i} button={button} />);
+  return (
+    <>
+      {buttons.map((button, i) => (
+        <Button key={i} button={button} />
+      ))}
+    </>
+  );
 };
 
 export default Buttons;
