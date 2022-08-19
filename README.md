@@ -2,7 +2,7 @@
 
 [Stream deck](https://www.elgato.com/en/stream-deck) inspired interactive dashboard for [Talon Voice](https://talonvoice.com)
 
-Exposes a responsive webpage where the user can monitor and control Talon.
+Exposes a responsive webpage where the user can monitor and control Talon. The perfect use case for a spare phone or tablet!
 
 <kbd><img src="./docs/example1.png" alt="Talon deck example 1" style="height:5rem; border:1px solid black;" /></kbd>
 
@@ -24,6 +24,18 @@ Exposes a responsive webpage where the user can monitor and control Talon.
    `npm start`
 1. Open Talon deck at [http://localhost:3000](http://localhost:3000)
 
+## Settings
+
+Before building the node server settings can be set in `settings.ts`
+
+## Network access
+
+By default the node server is bound to `localhost`. To enable network access change the `host` field in the settings file. Either to the computers specific IP address, eg `192.168.1.100`, or allow any address by `0.0.0.0`. It's highly recommended to enable `basicAuth` for anything other than localhost.
+
+## Authentication / Login
+
+`Basic auth` can be enabled in the settings file by setting a username and password.
+
 ## Implementation details
 
 1. `talon_deck_integration.py` in the Talon user directory keeps track of changing states in Talon and updates a JSON file in the systems temp directory.
@@ -33,4 +45,4 @@ Exposes a responsive webpage where the user can monitor and control Talon.
 
 ## Disclaimer
 
-This software has no login/authentication and is open to network connections. That means that any one with access to your local network can use it. Make sure to not use any destructive actions on an unsecure network.
+This software allows you to execute actions in Talon over the network. That means that if you change the host setting from `localhost` any one with access to your local network can use it. There is support for `Basic auth` which is recommended to use for network access, but even that isn't particularly secure by today's standard. I strongly recommend not to put any "destructive actions" on your deck. Especially if you enable network access.
