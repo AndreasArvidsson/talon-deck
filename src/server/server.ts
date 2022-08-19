@@ -1,11 +1,12 @@
+import cookieParser from "cookie-parser";
+import csrf from "csurf";
 import express from "express";
 import fs from "fs";
 import helmet from "helmet";
 import http from "http";
-import csrf from "csurf";
-import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { performAction } from "./actions";
+import basicAuth from "./auth";
 import {
   configIsStale,
   configReset,
@@ -27,6 +28,7 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(basicAuth);
 app.use(csrf({ cookie: true }));
 app.use("/", express.static(__dirname));
 

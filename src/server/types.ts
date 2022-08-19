@@ -22,4 +22,8 @@ export interface Config {
 export interface Settings {
   host: string;
   port: number;
+  basicAuth?: {
+    username: string;
+    password: string;
+  };
 }
