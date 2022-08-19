@@ -53,6 +53,10 @@ const hostValidationIP = (
       );
   }
 
+  if (host === "localhost") {
+    host = "127.0.0.1";
+  }
+
   if (net.isIP(host) === 0) {
     return response
       .status(403)
