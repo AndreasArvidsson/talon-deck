@@ -6,7 +6,7 @@ import helmet from "helmet";
 import http from "http";
 import { Server } from "socket.io";
 import { performAction } from "./actions";
-import basicAuth from "./auth";
+import { basicAuth, getValidHostsMessage, hostValidation } from "./auth";
 import {
   configIsStale,
   configReset,
@@ -15,7 +15,6 @@ import {
   readConfigFile,
 } from "./config";
 import { getSettings } from "./settingsUtil";
-import { validateHost } from "./validate";
 
 const settings = getSettings();
 const app = express();
@@ -29,6 +28,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use(basicAuth);
+app.use(hostValidation());
 app.use(csrf({ cookie: true }));
 app.use("/", express.static(__dirname));
 
@@ -41,11 +41,6 @@ app.get("/rest/buttons", (req, res) => {
 });
 
 app.post("/rest/action", async (req, res) => {
-  const [isValid, errorMessage] = validateHost(req.headers.host);
-  if (!isValid) {
-    res.status(403).send(errorMessage);
-    return;
-  }
   try {
     await performAction(req.body.actionId);
   } catch (e: any) {
@@ -61,6 +56,7 @@ const server = httpServer.listen(settings.port, settings.host, () => {
   console.log(
     `Server listening on host '${settings.host}' port '${settings.port}'`
   );
+  console.log(getValidHostsMessage());
 });
 
 fs.watch(getConfigFile(), () => {
