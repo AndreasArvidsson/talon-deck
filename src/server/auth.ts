@@ -89,7 +89,7 @@ export const hostValidation = () => {
     .flatMap((ip) => validPorts.map((port) => `${ip}${port}`))
     .sort();
 
-  validHostsMessage = `Valid hosts: [${hosts.join(", ")}]`;
+  validHostsMessage = `Valid hosts: ${hosts.join(", ")}`;
 
   return hostValidation_({ hosts });
 };
