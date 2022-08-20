@@ -14,6 +14,7 @@ import {
   getConfigFile,
   readConfigFile,
 } from "./config";
+import log from "./log";
 import { getSettings } from "./settingsUtil";
 
 const settings = getSettings();
@@ -53,10 +54,10 @@ const httpServer = http.createServer(app);
 const io = new Server(httpServer);
 
 const server = httpServer.listen(settings.port, settings.host, () => {
-  console.log(
+  log.info(
     `Server listening on host '${settings.host}' port '${settings.port}'`
   );
-  console.log(getValidHostsMessage());
+  log.info(getValidHostsMessage());
 });
 
 fs.watch(getConfigFile(), () => {
@@ -68,7 +69,7 @@ fs.watch(getConfigFile(), () => {
 setInterval(() => {
   // Config file is stale. No heartbeat signal sent.
   if (configIsStale()) {
-    console.log("Reset stale config");
+    log.debug("Reset stale config");
     configReset();
     io.emit("update");
   }
