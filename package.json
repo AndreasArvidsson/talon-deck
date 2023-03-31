@@ -1,6 +1,10 @@
 {
     "name": "talon-deck",
-    "version": "0.0.1",
+    "version": "1.0.0",
+    "private": true,
+    "bin": {
+        "talon-deck": "./cli.mjs"
+    },
     "scripts": {
         "start": "node ./out/server.js",
         "build": "webpack --config webpack.config.js --mode production",
