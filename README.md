@@ -12,10 +12,10 @@ Exposes a responsive webpage where the user can monitor and control Talon. The p
 
 ## Installation and running
 
-1. Install [`talon_deck_integration.py`](https://github.com/AndreasArvidsson/andreas-talon/blob/master/talon_deck/talon_deck_integration.py) in the Talon user directory.
+1. Install [`talon_deck_integration.py`](https://github.com/AndreasArvidsson/andreas-talon/blob/master/plugins/talon_deck/talon_deck_integration.py) in the Talon user directory.
 1. Add implementation of Talon action `user.talon_deck_get_buttons()`
-   - My implementation is available at [`talon_deck_buttons.py`](https://github.com/AndreasArvidsson/andreas-talon/blob/master/talon_deck/talon_deck_buttons.py)  
-     _Note that some of the `user.` actions may be lacking from your system_
+    - My implementation is available at [`talon_deck_buttons.py`](https://github.com/AndreasArvidsson/andreas-talon/blob/master/plugins/talon_deck/talon_deck_buttons.py)  
+      _Note that some of the `user.` actions may be lacking from your system_
 1. Install dependencies for node server  
    `npm install`
 1. Build node server  
