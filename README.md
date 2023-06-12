@@ -10,6 +10,10 @@ Exposes a responsive webpage where the user can monitor and control Talon. The p
 
 <img src="./docs/example_phone.jpg" alt="Talon deck phone" style="height:15rem" />
 
+## Demo
+
+[Youtube - Talon deck demo](https://youtu.be/7kcd4frRnUs)
+
 ## Installation and running
 
 1. Install [`talon_deck_integration.py`](https://github.com/AndreasArvidsson/andreas-talon/blob/master/plugins/talon_deck/talon_deck_integration.py) in the Talon user directory.
