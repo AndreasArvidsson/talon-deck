@@ -12,7 +12,7 @@ Exposes a responsive webpage where the user can monitor and control Talon. The p
 
 ## Demo
 
-[Youtube - Talon deck demo](https://youtu.be/7kcd4frRnUs)
+[YouTube - Talon deck demo](https://youtu.be/7kcd4frRnUs)
 
 ## Installation and running
 
