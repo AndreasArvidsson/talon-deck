@@ -4,6 +4,9 @@
 
 Exposes a responsive webpage where the user can monitor and control Talon. The perfect use case for a spare phone or tablet!
 
+> **Note**
+> If you find this repository helpful, [consider sponsoring](https://github.com/sponsors/AndreasArvidsson)!
+
 <kbd><img src="./docs/example1.png" alt="Talon deck example 1" style="height:5rem; border:1px solid black;" /></kbd>
 
 <kbd><img src="./docs/example2.jpg" alt="Talon deck example 2" style="height:11rem" /></kbd>
